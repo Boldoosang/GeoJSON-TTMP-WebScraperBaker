@@ -20,14 +20,16 @@ Install the requirements for the application using pip3.
 ```
 $ pip install -r requirements.txt
 ```
-Place your input GeoJSON file into the directory and rename it to "mapIn.geojson".
+Install the mapshaper npm package.
+```
+$ npm install -g mapshaper
+```
+Place your input GeoJSON file into the directory and rename it to "mapIn.geojson" OR edit the geojson_url to include the URL to the geojson file.
 Run the baker using the following command:
 ```
 $ python app.py
 ```
 Make use of your new baked GeoJSON file, "mapOut.geojson"!
-It is recommended to compress the output file so it can be more efficiently manipulated. This can be done using several free tools including [MapShaper](https://mapshaper.org/).
-
 
 ## THE RESULTS
 The following show the differences in the stucture of the GeoJSON file to reflect the addition of the MP information.

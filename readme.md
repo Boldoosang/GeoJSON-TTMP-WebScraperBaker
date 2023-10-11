@@ -1,4 +1,4 @@
-# GeoJSON - Trinidad and Tobago Member of Parliament Baker
+# GeoJSON - Trinidad and Tobago Member of Parliament Web Scraper & Baker
 Welcome to the GeoJSON baker for TTMP information! This project was designed to "bake"/embed information regarding the general election members of parliament. As future elections occur, there is a need to produce this GeoJSON file with all of the information included. Initially designed as a utility tool for [SpotDPothole Frontend](https://github.com/Boldoosang/NAV-spotDPothole-frontend).
 
 

@@ -2,13 +2,30 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import timeunit, json
+import requests, json
+
+
+geojson_url = "https://ebctt.com/constituencies.json"
+scrape_url = "https://www.thepicongparty.com/politics/profiles/central"  
+
+#to be continued
+# #response = requests.get(geojson_url)
+
+# #with open("mapIn.geojson", "w") as f:
+#     f.write(json.dumps(response.json()))
+#     print("Constituency GeoJSON map downloaded to 'mapIn.geojson'!")
+
+try:
+    mapIn = open("mapIn.geojson")
+except:
+    print("Unable to locate input file. Please add a 'mapIn.geojson' file into the directory and re-run.")
+    exit()
 
 driver = webdriver.Chrome()  # For Chrome
 constituencies = []
 
-url = "https://www.thepicongparty.com/politics/profiles/central"  
-driver.get(url)
+
+driver.get(scrape_url)
 
 _timeout = 10  # ⚠ don't forget to set a reasonable timeout
 WebDriverWait(driver, _timeout).until(
@@ -41,13 +58,17 @@ for i in range(0 , len(elements)+1):
     driver.implicitly_wait(3)
     elements = driver.find_elements(By.XPATH, "/html/body/div[1]/div/div[2]/select/option")
     
-
-with open("constituencies.json", "w") as f:
-    f.write(json.dumps(constituencies))
-    print("Exported to constituencies.json!")
-
 driver.quit()
-exit()
 
+polygonData = json.load(mapIn)
 
+collection = polygonData["features"]
 
+for polygon in collection:
+    for constituency in constituencies:
+        if polygon["properties"]["ID"] == constituency["constituency_code"]:
+            polygon["properties"]["official"] = constituency["official"]
+
+with open("mapOut.geojson", "w") as f:
+    f.write(json.dumps(polygonData))
+    print("Constituency official information added and saved to 'mapOut.geojson'!")

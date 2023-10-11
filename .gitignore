@@ -1,2 +1,4 @@
 .vs/
 venv/
+mapOut.geojson
+mapIn.geojson

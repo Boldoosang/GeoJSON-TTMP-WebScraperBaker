@@ -6,6 +6,7 @@ Welcome to the GeoJSON baker for TTMP information! This project was designed to 
 The following features have been implemented:
 * Automatic downloading of general election map.
 * Automatic gathering of general election constituency leaders.
+* Automatic compression of map to desired file-size using precision.
 * Automatic baking of constituency leaders into election map.
 * Can be configured as a script, module, or executed via the command line.
 
@@ -24,6 +25,7 @@ $ pip install -r requirements.txt
 ```
 Place your input GeoJSON file into the directory and rename it to "mapIn.geojson" OR edit the constructor within main.py to include the URL to the geojson file using the optional 'geojson_url' argument.
 
+Optionally, include a precision value using the constructor within main.py.
 Run the baker using the following command:
 ```
 $ python main.py
@@ -45,9 +47,10 @@ Import and configure the wsbaker as follows:
 #Step 1: Import
 from wsbaker import wsbaker
 
-#Step 2: Configure using wsbaker(inputFileLocation.geojson, outputFileLocation.geojson, scrape_url, *geojson_url)
+#Step 2: Configure using wsbaker(inputFileLocation.geojson, outputFileLocation.geojson, scrape_url, geojson_url, compress)
 #GeoJSON data stored as JSON data can also be entered.
-wb = wsbaker("input.geojson", "output.geojson", "https://scrapablewebsite.com", "https://ebctt.com/pathtomap.json")
+#Compression acts like precision and ranges from 1 to 100 with 100 being uncompressed.
+wb = wsbaker("input.geojson", "output.geojson", "https://scrapablewebsite.com", "https://ebctt.com/pathtomap.json", 2.5)
 
 #Step 3: Run
 wb.run()
@@ -70,6 +73,9 @@ Using a terminal within the project directory, run the following command customi
 ```
 #For an already downloaded GeoJSON file and using the default/tested scrapable website:
 $ python wsbaker "input.geojson" "output.geojson"
+
+#To reduce the final size of the map at the cost of precision, use the optional --compress argument:
+$ python wsbaker "input.geojson" "output.geojson" --compress 5
 
 #For a JSON file that is located on a website:
 $ python wsbaker "input.geojson" "output.geojson" --json "https://ebctt.com/pathtomap.json"

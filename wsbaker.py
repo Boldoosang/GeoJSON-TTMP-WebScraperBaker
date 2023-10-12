@@ -7,15 +7,17 @@ import requests, json
 import argparse
 import subprocess
 
-#scrape_url = "https://www.thepicongparty.com/politics/profiles/central"  
-#geojson_url = "https://ebctt.com/constituencies.json"
-
 class wsbaker:
-    def __init__(self, inputFileLocation="mapIn.geojson", outputFileLocation="mapOut.geojson", scrape_url="https://www.thepicongparty.com/politics/profiles/central", geojson_url="https://ebctt.com/constituencies.json"):
+    SCRAPE_URL = "https://www.thepicongparty.com/politics/profiles/central"  
+    GEOJSON_URL = "https://ebctt.com/constituencies.json"
+    COMPRESSION = 100
+
+    def __init__(self, inputFileLocation="mapIn.geojson", outputFileLocation="mapOut.geojson", scrape_url="https://www.thepicongparty.com/politics/profiles/central", geojson_url="https://ebctt.com/constituencies.json", compress=100):
         self.mapInLocation = inputFileLocation
         self.mapOutLocation = outputFileLocation
         self.scrape_url = scrape_url
         self.geojson_url = geojson_url
+        self.compress = compress
 
     def downloadJson(self, fileLocation):
         if (self.geojson_url == None or self.geojson_url == ()):
@@ -49,7 +51,7 @@ class wsbaker:
             
 
     def simplifyMap(self, inputFile, outputFile):
-        mapshaper_command = "mapshaper " + inputFile + " -simplify 2.5% -o force " + outputFile + " format=geojson"
+        mapshaper_command = "mapshaper " + inputFile + " -simplify " + str(self.compress) + "% -o force " + outputFile + " format=geojson"
         try:
             subprocess.run(mapshaper_command, shell=True, check=True)
         except subprocess.CalledProcessError as e:
@@ -140,19 +142,22 @@ if(__name__ == "__main__"):
 
     parser.add_argument('i', help='The input file that contains the GeoJSON data. Please include the extension.')
     parser.add_argument('o', help='The location where you would like the final GeoJSON file saved. Please include the extension.')
-    parser.add_argument('--url', help='The website to be scraped for constituency information.')
+    parser.add_argument('--url', help='Optional. The website to be scraped for constituency information.')
     parser.add_argument('--json', help='Optional. The URL of the geojson file located on a website.')
+    parser.add_argument('--compress', help='Optional. The precision percentage when simplifying map. Values 1 - 100. Default is 2.5.')
 
     args = parser.parse_args()
-
     argList = []
+
     argList.append(args.i)
     argList.append(args.o)
+    if args.url == None:
+        argList.append(wsbaker.SCRAPE_URL)
 
-    if args.url:
-        argList.append(args.url)
+    if args.json == None:
+        argList.append(wsbaker.GEOJSON_URL)    
 
-    if args.json:
-        argList.append(args.json)
+    if args.compress == None:
+        argList.append(wsbaker.COMPRESSION)
 
     wsbaker(*argList).run()

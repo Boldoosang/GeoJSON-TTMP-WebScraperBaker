@@ -2,3 +2,4 @@
 venv/
 mapOut.geojson
 mapIn.geojson
+__pycache__

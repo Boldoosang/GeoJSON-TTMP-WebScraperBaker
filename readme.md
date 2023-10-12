@@ -12,6 +12,7 @@ The following features have been implemented:
 
 ## CONFIGURATION AS A SCRIPT
 The application can be initialized and configured as a script as follows:
+
 (Optional) Create a virtual environment for the project and activate it.
 ```
 $ python -m venv "venv"
@@ -22,19 +23,23 @@ Install the requirements for the application using pip3.
 $ pip install -r requirements.txt
 ```
 Place your input GeoJSON file into the directory and rename it to "mapIn.geojson" OR edit the constructor within main.py to include the URL to the geojson file using the optional 'geojson_url' argument.
+
 Run the baker using the following command:
 ```
 $ python main.py
 ```
 Make use of your new baked GeoJSON file, "mapOut.geojson"!
 
+
 ## CONFIGURATION AS A MODULE
 The application can be initialized and configured as a module for an existing project as follows:
+
 Install the requirements for the application using pip3.
 ```
 $ pip install -r requirements.txt
 ```
 Place your input GeoJSON file into the directory and rename it to "mapIn.geojson" OR edit the constructor within main.py to include the URL to the geojson file using the optional 'geojson_url' argument.
+
 Import and configure the wsbaker as follows:
 ```
 #Step 1: Import
@@ -49,9 +54,12 @@ wb.run()
 ```
 Make use of your new baked GeoJSON file, "mapOut.geojson"!
 
+
 ## CONFIGURATION VIA COMMAND LINE
 The application can be initialized and configured via the command line as follows:
+
 Navigate to the directory of the project.
+
 Open a terminal within the same directory and install the requirements for the application using pip3.
 ```
 $ pip install -r requirements.txt
@@ -61,13 +69,16 @@ Place your input GeoJSON file into the directory and rename it to "mapIn.geojson
 Using a terminal within the project directory, run the following command customized for your project:
 ```
 #For an already downloaded GeoJSON file and using the default/tested scrapable website:
-$ py wsbaker "input.geojson" "output.geojson" 
+$ python wsbaker "input.geojson" "output.geojson"
+
 #For a JSON file that is located on a website:
-$ py wsbaker "input.geojson" "output.geojson" --url "https://website.com/electiondata.html"
+$ python wsbaker "input.geojson" "output.geojson" --json "https://ebctt.com/pathtomap.json"
+
 #For another endpoint that can be used to scrape the data. This WILL require modification to the scraper function of the wsbaker class.
-$ py wsbaker "input.geojson" "output.geojson" --url "https://website.com/electiondata.html" --json "https://ebctt.com/pathtomap.json"
+$ python wsbaker "input.geojson" "output.geojson" --url "https://website.com/electiondata.html"
 ```
 Make use of your new baked GeoJSON file, "output.geojson"!
+
 
 ## THE RESULTS
 The following show the differences in the stucture of the GeoJSON file to reflect the addition of the MP information.
